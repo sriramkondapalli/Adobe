@@ -30,9 +30,6 @@ class Adobe:
         else:
             'None'
 
-    # registering the UDF
-    get_search_engine_udf = udf(get_search_engine, StringType())
-    get_key_word_udf = udf(get_key_word, StringType())
 
     # get the search engine and search key as a column in the dataframe
     def get_domain_search(self, raw_df, spark):
@@ -72,6 +69,10 @@ class Adobe:
             .option("delimiter", "\t") \
             .option("inferSchema", "true") \
             .load(src_path)
+        
+        # registering the UDF
+        get_search_engine_udf = udf(get_search_engine, StringType())
+        get_key_word_udf = udf(get_key_word, StringType())
 
         searchDf = self.get_domain_search(rawDf, spark)
         revenueDf = self.get_revenue_df(rawDf, spark)
